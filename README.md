@@ -35,7 +35,7 @@ It features user authentication, brand and style filtering, search, and social l
    - Download hybridauth version 3.12.2 (Latest in 29/11/2025)
    - Unzip and put the vendor folder in the root directory
 
-3. **Access the Application**
+4. **Access the Application**
    - Open your browser and go to:  
      `http://localhost/quanswebsite/`
 
