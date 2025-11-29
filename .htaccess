@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Block direct access to sensitive files and folders
+RewriteRule ^database/ - [F,L]
+RewriteRule ^config/ - [F,L]
+
+# Redirect only if the request is for the root of the project
+RewriteCond %{REQUEST_URI} ^/quanswebsite/?$
+RewriteRule ^ /quanswebsite/public/index.php [L,R=302]
+
+# Make pretty URLs
+# RewriteRule ^car/([0-9]+)$ /quanswebsite/app/Views/car/show.php?cid=$1 [L]

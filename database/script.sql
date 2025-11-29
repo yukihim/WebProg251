@@ -5,15 +5,15 @@ CREATE DATABASE IF NOT EXISTS the_executive_garage;
 USE the_executive_garage;
 
 
-DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS Brands;
-DROP TABLE IF EXISTS BodyStyles;
-DROP TABLE IF EXISTS Locations;
-DROP TABLE IF EXISTS Cars;
+DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Brand;
+DROP TABLE IF EXISTS BodyStyle;
+DROP TABLE IF EXISTS Location;
+DROP TABLE IF EXISTS Car;
 
 
-CREATE TABLE Users (
-  user_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE User (
+  uid INT AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   first_name VARCHAR(100) NOT NULL,
@@ -22,28 +22,28 @@ CREATE TABLE Users (
 );
 
 
-CREATE TABLE Brands (
-  brand_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Brand (
+  bid INT AUTO_INCREMENT PRIMARY KEY,
   brand_name VARCHAR(50) NOT NULL UNIQUE
 );
 
 
-CREATE TABLE BodyStyles (
-  style_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE BodyStyle (
+  bsid INT AUTO_INCREMENT PRIMARY KEY,
   style_name VARCHAR(50) NOT NULL UNIQUE
 );
 
 
-CREATE TABLE Locations (
-  location_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Location (
+  lid INT AUTO_INCREMENT PRIMARY KEY,
   location_name VARCHAR(255) NOT NULL,
   address VARCHAR(255) NOT NULL,
   Maps_url TEXT NULL
 );
 
 
-CREATE TABLE Cars (
-  car_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Car (
+  cid INT AUTO_INCREMENT PRIMARY KEY,
   model_name VARCHAR(100) NOT NULL,
   description TEXT NULL,
   price DECIMAL(10, 0) NOT NULL,
@@ -53,37 +53,47 @@ CREATE TABLE Cars (
   -- Foreign Keys
   brand_id INT NULL,
   style_id INT NULL,
-  location_id INT NULL,
   
   -- Constraints
   CONSTRAINT fk_car_brand
     FOREIGN KEY (brand_id) 
-    REFERENCES Brands (brand_id)
+    REFERENCES Brand (bid)
     ON DELETE SET NULL, -- If a brand is deleted, set this car's brand to NULL
     
   CONSTRAINT fk_car_style
     FOREIGN KEY (style_id) 
-    REFERENCES BodyStyles (style_id)
-    ON DELETE SET NULL, -- If a body style is deleted, set this car's style to NULL
-    
-  CONSTRAINT fk_car_location
-    FOREIGN KEY (location_id) 
-    REFERENCES Locations (location_id)
-    ON DELETE SET NULL -- If a location is deleted, set this car's location to NULL
-    
+    REFERENCES BodyStyle (bsid)
+    ON DELETE SET NULL -- If a body style is deleted, set this car's style to NULL
+);
+
+-- For the relation between Car and Location
+CREATE TABLE Inventory (
+  inventory_id INT AUTO_INCREMENT PRIMARY KEY,
+  
+  -- The Link
+  car_id INT NOT NULL,
+  location_id INT NOT NULL,
+  
+  -- The Attribute
+  amount INT NOT NULL DEFAULT 0,
+
+  UNIQUE(car_id, location_id),
+
+  CONSTRAINT fk_inv_car FOREIGN KEY (car_id) REFERENCES Car (cid) ON DELETE CASCADE,
+  CONSTRAINT fk_inv_loc FOREIGN KEY (location_id) REFERENCES Location (lid) ON DELETE CASCADE
 );
 
 
 
 
 -- Sample Data
-INSERT INTO Users (email, password, first_name, last_name) VALUES
-('john.doe@example.com', 'hashed_password_1', 'John', 'Doe'),
-('jane.smith@example.com', 'hashed_password_2', 'Jane', 'Smith');
+INSERT INTO User (email, password, first_name, last_name) VALUES
+('john.doe@example.com', '$2y$10$SfxV40WFeApPYaefRVyXVuIdXAZ41JtV10uCCGMoKzEVHxR4941KG', 'John', 'Doe'),
+('jane.smith@example.com', '$2y$10$KPoCZqLwVD4Jpt.5SDswruJV.TUxmgg5.j5dIFV1bD5ZeHVFjyTVm', 'Jane', 'Smith');
 
 -- --------------------------------------------------------
 
-INSERT INTO Brands (brand_name) VALUES
+INSERT INTO Brand (brand_name) VALUES
 ('Porsche'),
 ('Mercedes-Benz'),
 ('BMW'),
@@ -93,7 +103,7 @@ INSERT INTO Brands (brand_name) VALUES
 
 -- --------------------------------------------------------
 
-INSERT INTO BodyStyles (style_name) VALUES
+INSERT INTO BodyStyle (style_name) VALUES
 ('Coupe'),
 ('SUV'),
 ('Sedan'),
@@ -103,23 +113,22 @@ INSERT INTO BodyStyles (style_name) VALUES
 
 -- --------------------------------------------------------
 
-INSERT INTO Locations (location_name, address, Maps_url) VALUES
-('The Executive Garage - Downtown', '123 Luxury Ave, Premium City, PC 10001', 'https://goo.gl/maps/example1'),
-('The Executive Garage - Northside', '456 Elite Rd, Uptown, PC 10002', 'https://goo.gl/maps/example2'),
-('The Executive Garage - West End', '789 Prestige Blvd, West End, PC 10003', 'https://goo.gl/maps/example3');
+INSERT INTO Location (location_name, address, Maps_url) VALUES
+('The Executive Garage - Germany', 'Haußmannstraße 229, 70188 Stuttgart, Germany', 'https://maps.app.goo.gl/7EHad9SYWVoLEYKi6'),
+('The Executive Garage - United States', '340 10th St, San Francisco, CA 94103, United States', 'https://maps.app.goo.gl/C1xMsXo15WB6g8w16'),
+('The Executive Garage - United Kingdom', '12A Mornington Cres, London NW1 7RH, United Kingdom', 'https://maps.app.goo.gl/yjkbjt9SNyeR7gV56');
 
 -- --------------------------------------------------------
 
-INSERT INTO Cars (model_name, description, price, year, image_url, brand_id, style_id, location_id) VALUES
+INSERT INTO Car (model_name, description, price, year, image_url, brand_id, style_id) VALUES
 (
   'Porsche 911 GT3 RS',
   'A track-focused masterpiece. Finished in stunning Shark Blue, this 911 GT3 is the pinnacle of performance and precision engineering. Low mileage and in pristine condition.',
   171150,
   2023,
   'porsche/porsche_911_gt3_rs.jpg',
-  (SELECT brand_id FROM Brands WHERE brand_name = 'Porsche'),
-  (SELECT style_id FROM BodyStyles WHERE style_name = 'Coupe'),
-  (SELECT location_id FROM Locations WHERE location_name = 'The Executive Garage - Downtown')
+  (SELECT bid FROM Brand WHERE brand_name = 'Porsche'),
+  (SELECT bsid FROM BodyStyle WHERE style_name = 'Coupe')
 ),
 (
   'Porsche Panamera 4',
@@ -127,9 +136,8 @@ INSERT INTO Cars (model_name, description, price, year, image_url, brand_id, sty
   105000,
   2025,
   'porsche/porsche_panamera_4.jpg',
-  (SELECT brand_id FROM Brands WHERE brand_name = 'Porsche'),
-  (SELECT style_id FROM BodyStyles WHERE style_name = 'Sedan'),
-  (SELECT location_id FROM Locations WHERE location_name = 'The Executive Garage - West End')
+  (SELECT bid FROM Brand WHERE brand_name = 'Porsche'),
+  (SELECT bsid FROM BodyStyle WHERE style_name = 'Sedan')
 ),
 (
   'Porsche 718 Cayman S',
@@ -137,9 +145,8 @@ INSERT INTO Cars (model_name, description, price, year, image_url, brand_id, sty
   88000,
   2022,
   'porsche/porsche_718_cayman_s.jpg',
-  (SELECT brand_id FROM Brands WHERE brand_name = 'Porsche'),
-  (SELECT style_id FROM BodyStyles WHERE style_name = 'Coupe'),
-  (SELECT location_id FROM Locations WHERE location_name = 'The Executive Garage - Downtown')
+  (SELECT bid FROM Brand WHERE brand_name = 'Porsche'),
+  (SELECT bsid FROM BodyStyle WHERE style_name = 'Coupe')
 ),
 (
   'BMW M5 Competition',
@@ -147,9 +154,8 @@ INSERT INTO Cars (model_name, description, price, year, image_url, brand_id, sty
   112000,
   2022,
   'bmw/bmw_m5_comp.jpg',
-  (SELECT brand_id FROM Brands WHERE brand_name = 'BMW'),
-  (SELECT style_id FROM BodyStyles WHERE style_name = 'Sedan'),
-  (SELECT location_id FROM Locations WHERE location_name = 'The Executive Garage - Northside')
+  (SELECT bid FROM Brand WHERE brand_name = 'BMW'),
+  (SELECT bsid FROM BodyStyle WHERE style_name = 'Sedan')
 ),
 (
   'Mercedes-AMG G 63',
@@ -157,9 +163,8 @@ INSERT INTO Cars (model_name, description, price, year, image_url, brand_id, sty
   175000,
   2023,
   'mercedes/mercedes_g63.jpg',
-  (SELECT brand_id FROM Brands WHERE brand_name = 'Mercedes-Benz'),
-  (SELECT style_id FROM BodyStyles WHERE style_name = 'SUV'),
-  (SELECT location_id FROM Locations WHERE location_name = 'The Executive Garage - Downtown')
+  (SELECT bid FROM Brand WHERE brand_name = 'Mercedes-Benz'),
+  (SELECT bsid FROM BodyStyle WHERE style_name = 'SUV')
 ),
 (
   'Audi RS 7 Sportback',
@@ -167,9 +172,8 @@ INSERT INTO Cars (model_name, description, price, year, image_url, brand_id, sty
   128000,
   2023,
   'audi/audi_rs7.jpg',
-  (SELECT brand_id FROM Brands WHERE brand_name = 'Audi'),
-  (SELECT style_id FROM BodyStyles WHERE style_name = 'Sportback'),
-  (SELECT location_id FROM Locations WHERE location_name = 'The Executive Garage - West End')
+  (SELECT bid FROM Brand WHERE brand_name = 'Audi'),
+  (SELECT bsid FROM BodyStyle WHERE style_name = 'Sportback')
 ),
 (
   'Lexus LC 500 Convertible',
@@ -177,7 +181,78 @@ INSERT INTO Cars (model_name, description, price, year, image_url, brand_id, sty
   105000,
   2022,
   'lexus/lexus_lc500.jpg',
-  (SELECT brand_id FROM Brands WHERE brand_name = 'Lexus'),
-  (SELECT style_id FROM BodyStyles WHERE style_name = 'Convertible'),
-  (SELECT location_id FROM Locations WHERE location_name = 'The Executive Garage - Northside')
+  (SELECT bid FROM Brand WHERE brand_name = 'Lexus'),
+  (SELECT bsid FROM BodyStyle WHERE style_name = 'Convertible')
+),
+(
+  'Maserati Granturismo',
+  'An Italian masterpiece that combines elegance and performance. The Granturismo offers a thrilling V8 engine and a luxurious interior, perfect for grand touring.',
+  159495,
+  2025,
+  'maserati/maserati_granturismo.jpg',
+  (SELECT bid FROM Brand WHERE brand_name = 'Maserati'),
+  (SELECT bsid FROM BodyStyle WHERE style_name = 'Coupe')
+);
+
+
+INSERT INTO Inventory (car_id, location_id, amount) VALUES 
+(
+  (SELECT cid FROM Car WHERE model_name = 'Porsche 911 GT3 RS'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - Germany'),
+  5
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Porsche 911 GT3 RS'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - United States'),
+  2
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Porsche Panamera 4'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - Germany'),
+  1
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Porsche Panamera 4'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - United States'),
+  3
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Porsche 718 Cayman S'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - Germany'),
+  2
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'BMW M5 Competition'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - United Kingdom'),
+  3
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'BMW M5 Competition'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - United States'),
+  2
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Mercedes-AMG G 63'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - Germany'),
+  2
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Audi RS 7 Sportback'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - United Kingdom'),
+  2
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Lexus LC 500 Convertible'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - United States'),
+  1
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Lexus LC 500 Convertible'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - United Kingdom'),
+  1
+),
+(
+  (SELECT cid FROM Car WHERE model_name = 'Maserati Granturismo'),
+  (SELECT lid FROM Location WHERE location_name = 'The Executive Garage - Germany'),
+  2
 );
