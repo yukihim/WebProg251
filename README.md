@@ -112,6 +112,7 @@ quanswebsite/
 - **Car Details**: View detailed information and images for each car.
 - **Brand Showcase**: Explore cars by top brands with logo backgrounds.
 - **Responsive Design**: Mobile-friendly layout.
+- **SEO Practices Applied**: Meta Description, Semantic HTML, Sitemap.
 
 ---
 
