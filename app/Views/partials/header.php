@@ -86,18 +86,18 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                 </li>
                 <?php if (isset($_SESSION['user'])): ?>
                     <li class="nav-item">
-                        <a class="btn btn-outline-danger" href="/quanswebsite/public/logout.php">
+                        <a class="btn btn-outline-danger gap-2" href="/quanswebsite/public/logout.php">
                             <i class="fa-solid fa-right-from-bracket"></i> Logout
                         </a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
-                        <a class="btn btn-outline-primary" href="/quanswebsite/public/login.php">
+                        <a class="btn btn-outline-primary gap-2" href="/quanswebsite/public/login.php">
                             <i class="fa-solid fa-user"></i> Login
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="/quanswebsite/public/signup.php">
+                        <a class="btn btn-primary gap-2" href="/quanswebsite/public/signup.php">
                             <i class="fa-solid fa-user-plus"></i> Sign Up
                         </a>
                     </li>
