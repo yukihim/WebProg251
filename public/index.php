@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $pageTitle = "Homepage - The Executive Garage";
 include '../app/Views/partials/header.php';
 
@@ -19,19 +24,26 @@ $brands = $brandController->getAllBrands();
 $keyword = $_GET['keyword'] ?? null;
 $brand_id = $_GET['brand_id'] ?? null;
 
+if (!isset($_SESSION['carNameSorting'])) {
+    $_SESSION['carNameSorting'] = 'DESC';
+}
+if (isset($_POST['toggle_sort'])) {
+    $_SESSION['carNameSorting'] = ($_SESSION['carNameSorting'] === 'ASC') ? 'DESC' : 'ASC';
+}
+
 if (!empty($keyword)) {
     // To search cars with pagination from offset to limit with searching
-    $cars = $carController->searchCarsPaginated($keyword, $carsPerPage, $offset);
+    $cars = $carController->searchCarsPaginated($keyword, $carsPerPage, $offset, $_SESSION['carNameSorting']);
 
     $totalCars = $carController->countSearchCars($keyword);
 } elseif (!empty($brand_id)) {
     // To get cars by brand with pagination from offset to limit with brand filter
-    $cars = $carController->showByBrandPaginated($brand_id, $carsPerPage, $offset);
+    $cars = $carController->showByBrandPaginated($brand_id, $carsPerPage, $offset, $_SESSION['carNameSorting']);
 
     $totalCars = $carController->countCarsByBrand($brand_id);
 } else {
     // To list cars with pagination from offset to limit
-    $cars = $carController->listCarsPaginated($carsPerPage, $offset);
+    $cars = $carController->listCarsPaginated($carsPerPage, $offset, $_SESSION['carNameSorting']);
 
     $totalCars = $carController->countCars();
 }
@@ -136,14 +148,31 @@ $totalPages = ceil($totalCars / $carsPerPage);
 </section>
 
 <section class="my-5">
-    <!-- <h2 class="text-center mb-4">
-        <i class="fa-solid fa-car"></i>
-        <?php
-        if ($keyword) echo "Search results for “" . htmlspecialchars($keyword) . "”";
-        elseif ($brand_id) echo "Cars from selected brand";
-        else echo "Available Cars";
-        ?>
-    </h2> -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            Currently sorting (by model name):
+            <?php if ($_SESSION['carNameSorting'] == 'ASC'): ?>
+                A-Z
+            <?php else: ?>
+                Z-A
+            <?php endif; ?>
+        </div>
+        <div>
+            <form method="post" style="display:inline;">
+                <button type="submit"
+                    name="toggle_sort"
+                    class="btn btn-secondary"
+                    title="<?php if ($_SESSION['carNameSorting'] == 'ASC'): ?>Sort A to Z<?php else: ?>Sort Z to A<?php endif; ?>">
+                    Sorting
+                    <?php if ($_SESSION['carNameSorting'] == 'ASC'): ?>
+                        <i class="fa-solid fa-angle-up"></i>
+                    <?php else: ?>
+                        <i class="fa-solid fa-angle-down"></i>
+                    <?php endif; ?>
+                </button>
+            </form>
+        </div>
+    </div>
 
     <?php if (empty($cars)): ?>
         <p class="text-center text-muted">No cars found.</p>
