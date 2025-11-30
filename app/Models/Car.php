@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../config/Database.php';
+require_once __DIR__ . '/../../config/database.php';
 
 class Car {
     private $conn;
@@ -20,13 +20,23 @@ class Car {
         $this->conn = $db;
     }
 
-    public function getAllPaginated($limit, $offset) {
-        $query = "SELECT j.*, b.brand_name, bs.style_name
+    public function getAllPaginated($limit, $offset, $carNameSorting) {
+        $query = "";
+        if ($carNameSorting == 'ASC') {
+            $query = "SELECT j.*, b.brand_name, bs.style_name
                 FROM {$this->table_name} j
                 JOIN Brand b ON j.brand_id = b.bid
                 JOIN BodyStyle bs ON j.style_id = bs.bsid
-                ORDER BY j.year DESC
+                ORDER BY j.model_name ASC
                 LIMIT :limit OFFSET :offset";
+        } else {
+            $query = "SELECT j.*, b.brand_name, bs.style_name
+                FROM {$this->table_name} j
+                JOIN Brand b ON j.brand_id = b.bid
+                JOIN BodyStyle bs ON j.style_id = bs.bsid
+                ORDER BY j.model_name DESC
+                LIMIT :limit OFFSET :offset";
+        }
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
@@ -39,14 +49,25 @@ class Car {
         return $this->conn->query($query)->fetchColumn();
     }
 
-    public function searchPaginated($keyword, $limit, $offset) {
-        $query = "SELECT j.*, b.brand_name, bs.style_name
+    public function searchPaginated($keyword, $limit, $offset, $carNameSorting) {
+        $query = "";
+        if ($carNameSorting == 'ASC') {
+            $query = "SELECT j.*, b.brand_name, bs.style_name
                 FROM {$this->table_name} j
                 JOIN Brand b ON j.brand_id = b.bid
                 JOIN BodyStyle bs ON j.style_id = bs.bsid
                 WHERE j.model_name LIKE :keyword OR bs.style_name LIKE :keyword OR b.brand_name LIKE :keyword
-                ORDER BY j.year DESC
+                ORDER BY j.model_name ASC
                 LIMIT :limit OFFSET :offset";
+        } else {
+            $query = "SELECT j.*, b.brand_name, bs.style_name
+                FROM {$this->table_name} j
+                JOIN Brand b ON j.brand_id = b.bid
+                JOIN BodyStyle bs ON j.style_id = bs.bsid
+                WHERE j.model_name LIKE :keyword OR bs.style_name LIKE :keyword OR b.brand_name LIKE :keyword
+                ORDER BY j.model_name DESC
+                LIMIT :limit OFFSET :offset";
+        }
         $stmt = $this->conn->prepare($query);
         $kw = "%" . $keyword . "%";
         $stmt->bindParam(":keyword", $kw);
@@ -68,14 +89,25 @@ class Car {
         return $stmt->fetchColumn();
     }
 
-    public function getByBrandPaginated($brand_id, $limit, $offset) {
-        $query = "SELECT j.*, b.brand_name, bs.style_name
+    public function getByBrandPaginated($brand_id, $limit, $offset, $carNameSorting) {
+        $query = "";
+        if ($carNameSorting == 'ASC') {
+            $query = "SELECT j.*, b.brand_name, bs.style_name
                 FROM {$this->table_name} j
                 JOIN Brand b ON j.brand_id = b.bid
                 JOIN BodyStyle bs ON j.style_id = bs.bsid
                 WHERE j.brand_id = :brand_id
-                ORDER BY j.year DESC
+                ORDER BY j.model_name ASC
                 LIMIT :limit OFFSET :offset";
+        } else {
+            $query = "SELECT j.*, b.brand_name, bs.style_name
+                FROM {$this->table_name} j
+                JOIN Brand b ON j.brand_id = b.bid
+                JOIN BodyStyle bs ON j.style_id = bs.bsid
+                WHERE j.brand_id = :brand_id
+                ORDER BY j.model_name DESC
+                LIMIT :limit OFFSET :offset";
+        }
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":brand_id", $brand_id);
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
