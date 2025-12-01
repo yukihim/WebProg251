@@ -117,16 +117,7 @@ $totalPages = ceil($totalCars / $carsPerPage);
     <div class="row text-center">
         <?php foreach ($brands as $brand): ?>
             <?php
-                $basePath = $_SERVER['DOCUMENT_ROOT'] . '/quanswebsite/public/uploads/';
-                $brandFileName = urlencode($brand['brand_name']);
-                $imgUrl = '';
-                if (file_exists($basePath . $brandFileName . '.jpg')) {
-                    $imgUrl = "/quanswebsite/public/uploads/{$brandFileName}.jpg";
-                } elseif (file_exists($basePath . $brandFileName . '.png')) {
-                    $imgUrl = "/quanswebsite/public/uploads/{$brandFileName}.png";
-                } else {
-                    $imgUrl = "/quanswebsite/public/uploads/default.jpg";
-                }
+                $imgUrl = "/quanswebsite/public/uploads/{$brand['brand_name']}.png";
             ?>
             <div class="col-md-3 col-6 mb-3">
                 <a href="index.php?brand_id=<?php echo $brand['bid'] ?>"
@@ -189,14 +180,7 @@ $totalPages = ceil($totalCars / $carsPerPage);
                             </div>
                             <!-- car image-->
                             <?php
-                                $carImageUrl = $car['image_url'];
-
-                                $imgUrl = '';
-                                if (file_exists("../app/Views/images/{$carImageUrl}")) {
-                                    $imgUrl = "../app/Views/images/{$carImageUrl}";
-                                } else {
-                                    $imgUrl = "/uploads/default.png";
-                                }
+                                $imgUrl = "../app/Views/images/{$car['image_url']}";
                             ?>
                             <div class="mx-2 mb-2"
                                 style="flex-grow: 1; display: flex; align-items: flex-end; border-radius: 0.5em; overflow: hidden;">
