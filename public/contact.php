@@ -3,9 +3,11 @@ $pageTitle = "Contact";
 include '../app/Views/partials/header.php';
 ?>
 
-<div class="container mt-5 mb-5">
+<div class="container mt-5 mb-5 mx-auto">
     <div class="card shadow-sm p-4">
-        <h2 class="mb-4 text-primary"><i class="fa-solid fa-envelope"></i> Contact Me</h2>
+        <h2 class="mb-4 text-primary">
+            <i class="fa-solid fa-envelope"></i> Contact Me
+        </h2>
         <p>
             <strong>Web Name:</strong> The Executive Garage<br>
             <strong>Student:</strong> Phạm Lê Quân<br>
