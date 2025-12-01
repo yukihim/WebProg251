@@ -55,7 +55,7 @@ $totalPages = ceil($totalCars / $carsPerPage);
 <section class="hero-section text-center py-5 bg-white shadow-sm rounded mb-4">
     <?php if (isset($_SESSION['message'])): ?>
         <h1 style="color: #0d6efd; font-weight: bold; margin-bottom: 20px;">
-            <?= htmlspecialchars($_SESSION['message']) ?>
+            <?php echo htmlspecialchars($_SESSION['message']) ?>
         </h1>
     <?php else: ?>
         <h1 class="fw-bold mb-3">Discover Your Dream Ride</h1>
@@ -69,7 +69,7 @@ $totalPages = ceil($totalCars / $carsPerPage);
             <input type="text" 
                 id="searchBox" 
                 name="keyword" 
-                value="<?= htmlspecialchars($keyword ?? '') ?>"
+                value="<?php echo htmlspecialchars($keyword ?? '') ?>"
                 class="form-control" 
                 placeholder="Search by automobile's name">
             <div id="searchSuggestions" 
@@ -102,8 +102,9 @@ $totalPages = ceil($totalCars / $carsPerPage);
             </li>
             <?php if ($breadcrumbBrand): ?>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <a href="index.php?brand_id=<?= $brand_id ?>" class="ref">
-                        <?= htmlspecialchars($breadcrumbBrand) ?>
+                    <a href="index.php?brand_id=<?php echo $brand_id ?>" class="ref">
+                        <!-- Prevent special character issues -->
+                        <?php echo htmlspecialchars($breadcrumbBrand) ?>
                     </a>
                 </li>
             <?php endif; ?>
@@ -111,7 +112,6 @@ $totalPages = ceil($totalCars / $carsPerPage);
     </nav>
 
     <?php if ($brand_id): ?>
-        <!-- Button to redirect to index.php to show all brands -->
         <a href="index.php" class="btn btn-primary mb-4 gap-2">
             <i class="fa-solid fa-arrow-left"></i> Back to All Brands
         </a>
@@ -130,16 +130,16 @@ $totalPages = ceil($totalCars / $carsPerPage);
                 } elseif (file_exists($basePath . $brandFileName . '.png')) {
                     $imgUrl = "/quanswebsite/public/uploads/{$brandFileName}.png";
                 } else {
-                    $imgUrl = "/quanswebsite/public/uploads/default.jpg"; // fallback image
+                    $imgUrl = "/quanswebsite/public/uploads/default.jpg";
                 }
             ?>
             <div class="col-md-3 col-6 mb-3">
-                <a href="index.php?brand_id=<?= $brand['bid'] ?>"
+                <a href="index.php?brand_id=<?php echo $brand['bid'] ?>"
                     class="brand-btn w-100"
-                    style="background-image: url('<?= $imgUrl ?>'); height: 15em; background-size: cover; background-position: center; color: #fff;">
+                    style="background-image: url('<?php echo $imgUrl ?>'); height: 15em; background-size: cover; background-position: center; color: #fff;">
                     <span class="brand-name"
                         style="width: 100%; height: 100%; justify-content: center; align-items: center; display: flex;">
-                        <?= htmlspecialchars($brand['brand_name']) ?>
+                        <?php echo htmlspecialchars($brand['brand_name']) ?>
                     </span>
                 </a>
             </div>
@@ -180,17 +180,17 @@ $totalPages = ceil($totalCars / $carsPerPage);
         <div class="row">
             <?php foreach ($cars as $car): ?>
                 <div class="col-md-4 mb-4">
-                    <a href="../app/Views/car/show.php?cid=<?= $car['cid'] ?>" class="text-decoration-none text-reset">
+                    <a href="../app/Views/car/show.php?cid=<?php echo $car['cid'] ?>" class="text-decoration-none text-reset">
                         <div class="card h-100 d-flex flex-column">
                             <div class="card-body">
-                                <h5 class="card-title"><?= htmlspecialchars($car['model_name']) ?></h5>
+                                <h5 class="card-title"><?php echo htmlspecialchars($car['model_name']) ?></h5>
                                 <p class="text-muted mb-1">
-                                    <i class="fa-regular fa-dollar-sign"></i> <?= htmlspecialchars($car['price']) ?>
+                                    <i class="fa-regular fa-dollar-sign"></i> <?php echo htmlspecialchars($car['price']) ?>
                                 </p>
                                 <p class="text-muted">
-                                    <i class="fa-solid fa-calendar"></i> <?= htmlspecialchars($car['year']) ?>
+                                    <i class="fa-solid fa-calendar"></i> <?php echo htmlspecialchars($car['year']) ?>
                                 </p>
-                                <p class="small"><?= htmlspecialchars(substr($car['description'], 0, 100)) ?>...</p>
+                                <p class="small"><?php echo htmlspecialchars(substr($car['description'], 0, 100)) ?>...</p>
                             </div>
                             <!-- car image-->
                             <?php
@@ -200,13 +200,13 @@ $totalPages = ceil($totalCars / $carsPerPage);
                                 if (file_exists("../app/Views/images/{$carImageUrl}")) {
                                     $imgUrl = "../app/Views/images/{$carImageUrl}";
                                 } else {
-                                    $imgUrl = "/uploads/default_car.jpg"; // fallback image
+                                    $imgUrl = "/uploads/default.png";
                                 }
                             ?>
                             <div class="mx-2 mb-2"
                                 style="flex-grow: 1; display: flex; align-items: flex-end; border-radius: 0.5em; overflow: hidden;">
-                                <img src="<?= $imgUrl ?>" 
-                                    alt="<?= htmlspecialchars($car['model_name']) ?>"
+                                <img src="<?php echo $imgUrl ?>" 
+                                    alt="<?php echo htmlspecialchars($car['model_name']) ?>"
                                     class="img-fluid w-100"
                                     style="max-height: 200px; object-fit: cover; border-radius: 0.5em;">
                             </div>
@@ -218,10 +218,10 @@ $totalPages = ceil($totalCars / $carsPerPage);
         <nav aria-label="Car pagination">
             <ul class="pagination justify-content-center">
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                <li class="page-item <?php echo ($i == $page) ? 'active' : '' ?>">
                     <a class="page-link"
-                    href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>">
-                    <?= $i ?>
+                    href="?<?php echo http_build_query(array_merge($_GET, ['page' => $i])) ?>">
+                    <?php echo $i ?>
                     </a>
                 </li>
                 <?php endfor; ?>
