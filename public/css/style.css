@@ -34,7 +34,7 @@ body {
 main {
     flex: 1;
     padding-bottom: 60px;
-    margin-top: 5em;
+    margin-top: 10em;
 }
 
 h1, h2, h3, h4, h5 {
@@ -56,13 +56,6 @@ a:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* .navbar.sticky-top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    z-index: 1050;
-} */
 
 .navbar-brand {
     font-weight: 700;
@@ -75,12 +68,22 @@ a:hover {
     color: #FFDF00;
     transition: color 0.2s ease;
 
-    border-radius: var(--radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3em;
 }
 .nav-link:hover, .nav-link.active {
-    /* color: var(--primary-color) !important; */
     background-color: #FFDF00 !important;
-    color: rgba(0,0,0,1) !important; /* Bootstrap black */
+    color: rgba(0,0,0,1) !important;
+}
+.nav-link.active:hover {
+    /* Dimmer #FFDF00 on hover when active */
+    background-color: #e6c700 !important;
+}
+
+.navbar-toggler:hover {
+    background-color: rgba(0,0,0,0.1);
 }
 
 .hero-section {
@@ -100,19 +103,6 @@ a:hover {
     z-index: 1;
 }
 
-/* .brand-btn {
-    position: relative;
-    min-height: 80px;
-    border: none;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
-}
-.brand-btn span {
-    z-index: 2;
-} */
 .brand-btn {
     display: block;
     position: relative;
@@ -350,10 +340,6 @@ footer .social-icon:hover {
     color: white;
 }
 
-/* footer hr {
-    border-color: rgba(255, 255, 255, 0.1);
-    margin: 0.4rem 0;
-} */
 footer hr {
     border-top: 2px solid black;
     margin: 1em auto;

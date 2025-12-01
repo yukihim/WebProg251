@@ -33,8 +33,8 @@ if (!$car) {
 ?>
 
 <nav aria-label="breadcrumb"
-    class="mx-3"
-    style="display: flex; flex-wrap: wrap; align-items: center; margin-top: 2em;">
+    class="container px-3"
+    style="display: flex; flex-wrap: wrap; align-items: center;">
     <div style="margin-right: 0.5em;">Navigation:</div>
     <ol class="breadcrumb" style="--bs-breadcrumb-divider: '>'; display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 0;">
         <li class="breadcrumb-item">
