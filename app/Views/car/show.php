@@ -33,7 +33,7 @@ if (!$car) {
 ?>
 
 <nav aria-label="breadcrumb"
-    class="container px-3"
+    class="container-lg px-3"
     style="display: flex; flex-wrap: wrap; align-items: center;">
     <div style="margin-right: 0.5em;">Navigation:</div>
     <ol class="breadcrumb" style="--bs-breadcrumb-divider: '>'; display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 0;">
@@ -55,7 +55,7 @@ if (!$car) {
     </ol>
 </nav>
 
-<div class="container mt-3 mb-5">
+<div class="container-lg mt-3 mb-5">
     <div class="card shadow-sm p-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="fw-bold mb-0">

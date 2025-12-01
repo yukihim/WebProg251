@@ -89,7 +89,9 @@ $totalPages = ceil($totalCars / $carsPerPage);
 ?>
 <section class="mt-5">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="mb-3" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1em">
+    <nav aria-label="Breadcrumb navigation"
+        class="mb-3"
+        style="display: flex; flex-wrap: wrap; align-items: center; gap: 1em">
         <div>Navigation: </div>
         <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>';">
             <li class="breadcrumb-item">
@@ -97,7 +99,8 @@ $totalPages = ceil($totalCars / $carsPerPage);
             </li>
             <?php if ($breadcrumbBrand): ?>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <a href="index.php?brand_id=<?php echo $brand_id ?>" class="ref">
+                    <a href="index.php?brand_id=<?php echo $brand_id ?>"
+                        class="ref">
                         <!-- Prevent special character issues -->
                         <?php echo htmlspecialchars($breadcrumbBrand) ?>
                     </a>
@@ -148,7 +151,7 @@ $totalPages = ceil($totalCars / $carsPerPage);
                 <button type="submit"
                     name="toggle_sort"
                     class="btn btn-secondary"
-                    title="<?php if ($_SESSION['carNameSorting'] == 'ASC'): ?>Sort A to Z<?php else: ?>Sort Z to A<?php endif; ?>">
+                    title="<?php if ($_SESSION['carNameSorting'] == 'ASC'): ?>Click to sort Z to A<?php else: ?>Click to sort A to Z<?php endif; ?>">
                     Sorting
                     <?php if ($_SESSION['carNameSorting'] == 'ASC'): ?>
                         <i class="fa-solid fa-angle-up"></i>
@@ -183,24 +186,24 @@ $totalPages = ceil($totalCars / $carsPerPage);
                                 $imgUrl = "../app/Views/images/{$car['image_url']}";
                             ?>
                             <div class="mx-2 mb-2"
-                                style="flex-grow: 1; display: flex; align-items: flex-end; border-radius: 0.5em; overflow: hidden;">
+                                style="height: 300px; display: flex; align-items: flex-end; border-radius: 0.5em; overflow: hidden;">
                                 <img src="<?php echo $imgUrl ?>" 
                                     alt="<?php echo htmlspecialchars($car['model_name']) ?>"
-                                    class="img-fluid w-100"
-                                    style="max-height: 200px; object-fit: cover; border-radius: 0.5em;">
+                                    class="img-fluid h-100 w-100"
+                                    style="object-fit: cover; border-radius: 0.5em;">
                             </div>
                         </div>
                     </a>
                 </div>
             <?php endforeach; ?>
         </div>
-        <nav aria-label="Car pagination">
+        <nav aria-label="Car pagination" title="Car pagination">
             <ul class="pagination justify-content-center">
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <li class="page-item <?php echo ($i == $page) ? 'active' : '' ?>">
                     <a class="page-link"
-                    href="?<?php echo http_build_query(array_merge($_GET, ['page' => $i])) ?>">
-                    <?php echo $i ?>
+                        href="index.php?page=<?php echo $i ?>">
+                        <?php echo $i ?>
                     </a>
                 </li>
                 <?php endfor; ?>
