@@ -24,7 +24,7 @@ It features user authentication, brand and style filtering, search, and social l
 
 1. **Clone the Repository**
    ```sh
-   git clone <repository-url>
+   git clone https://github.com/yukihim/WebProg251.git
    cd quanswebsite
    ```
 
