@@ -61,7 +61,8 @@ $emailjsConfig = require __DIR__ . '/../../../config/emailjs_config.php';
 <nav class="navbar navbar-expand-lg fixed-top shadow-sm" style="padding: 0 0;">
     <div class="container-fluid w-100 d-flex flex-column" style="padding: 0 0;">
         <div class="container-fluid py-2 bg-black w-100 d-flex justify-content-center">
-            <a class="navbar-brand fw-bold" href="/quanswebsite/public/index.php">
+            <a class="navbar-brand fw-bold" href="/quanswebsite/public/index.php"
+                style="margin: 0;">
                 The Executive Garage
             </a>
         </div>
