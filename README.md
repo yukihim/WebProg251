@@ -20,7 +20,7 @@ It features user authentication, brand and style filtering, search, and social l
 - **Bootstrap** (for responsive UI components)
 - **Font Awesome** (for icons)
 
-### Installation Steps
+### Installation Steps (If you are from github)
 
 1. **Clone the Repository**
    ```sh
@@ -45,6 +45,21 @@ It features user authentication, brand and style filtering, search, and social l
    - Contact me at `jacklorien@gmail.com` for the necessary keys if you are a contributor.
 
 5. **Access the Application**
+   - Open your browser and go to:  
+     `http://localhost/quanswebsite/`
+
+### Installation Steps (If you received the folder quanswebsite)
+
+1. **Clone the Repository**
+   ```sh
+   git clone <repository-url>
+   cd quanswebsite
+   ```
+
+2. **Database Setup**
+   - Import `database/script.sql` into phpMyAdmin or your MySQL server.
+
+3. **Access the Application**
    - Open your browser and go to:  
      `http://localhost/quanswebsite/`
 
