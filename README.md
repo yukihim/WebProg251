@@ -77,6 +77,7 @@ quanswebsite/
 │           └── footer.php         # Shared site footer
 ├── config/
 │   ├── database.php               # Database connection settings and credentials
+│   ├── emailjs_config.php         # EmailJS connection credentials
 │   └── hybridauth_config.php      # Hybridauth connection settings and credentials (Facebook and Google)
 ├── database/
 │   └── script.sql                 # SQL schema and initial seed data for the app
