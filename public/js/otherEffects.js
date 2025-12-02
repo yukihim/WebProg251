@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (backToTop) {
         backToTop.addEventListener('click', function(e) {
             e.preventDefault();
+
+            // Smooth scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }

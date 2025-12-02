@@ -3,6 +3,8 @@ RewriteEngine On
 # Block direct access to sensitive files and folders
 RewriteRule ^database/ - [F,L]
 RewriteRule ^config/ - [F,L]
+RewriteRule ^config/hybridauth_config.php - [F,L]
+RewriteRule ^config/emailjs_config.php - [F,L]
 
 # Redirect only if the request is for the root of the project
 RewriteCond %{REQUEST_URI} ^/quanswebsite/?$

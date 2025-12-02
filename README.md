@@ -17,6 +17,8 @@ It features user authentication, brand and style filtering, search, and social l
 - **XAMPP** (or compatible PHP/MySQL stack)
 - **EmailJS** (for emailing)
 - **HybridAuth** (for social login)
+- **Bootstrap** (for responsive UI components)
+- **Font Awesome** (for icons)
 
 ### Installation Steps
 
@@ -116,6 +118,6 @@ quanswebsite/
 
 ---
 
-## For hybridauth config
+## For hybridauth/emailjs configs
 
-Contact me through `jacklorien@gmail.com` to get the config. This is to ensure all the keys are not public and be used by others.
+Contact me through `jacklorien@gmail.com` to get the configs. This is to ensure all the keys are not public and be used by others.

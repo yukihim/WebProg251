@@ -1,3 +1,4 @@
 hybridauth-3.12.2.zip
 vendor/
 config/hybridauth_config.php
+config/emailjs_config.php

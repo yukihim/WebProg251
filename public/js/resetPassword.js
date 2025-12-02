@@ -7,8 +7,6 @@ function handleResetProcess(first_name, last_name, newPassword, email) {
         senderName: "The Exclusive Garage"
     }
 
-    alert("Params: " + JSON.stringify(params));
-
     emailjs.send("service_1hcvss7", "template_ivgz5qi", params)
     .then((response) => {
         console.log("EmailJS Response:", response);

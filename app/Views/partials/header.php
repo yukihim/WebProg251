@@ -1,6 +1,8 @@
 <?php
 if (!isset($pageTitle)) $pageTitle = "Homepage - The Executive Garage";
 if (session_status() === PHP_SESSION_NONE) session_start();
+
+$emailjsConfig = require __DIR__ . '/../../../config/emailjs_config.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +30,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     <script type="text/javascript">
         (function(){
             emailjs.init({
-                publicKey: "Gk5db20IwPdzTF_mh",
+                publicKey: "<?php echo htmlspecialchars($emailjsConfig['publicKey']) ?>",
             });
         })();
     </script>
