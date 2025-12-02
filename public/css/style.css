@@ -17,7 +17,7 @@ html, body {
     display: flex;
     flex-direction: column;
 
-    min-width: 530px; /* Prevent layout issues on very small screens */
+    min-width: 300px; /* Prevent layout issues on very small screens */
     /* overflow-x: auto;
     overflow-y: scroll; */
 }
