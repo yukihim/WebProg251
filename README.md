@@ -35,9 +35,16 @@ It features user authentication, brand and style filtering, search, and social l
    - Open your browser and go to:  
      `https://github.com/hybridauth/hybridauth/releases`
    - Download hybridauth version 3.12.2 (Latest in 29/11/2025)
-   - Unzip and put the vendor folder in the root directory
+   - Unzip the contents.
+   - Rename the unzipped folder from `hybridauth-3.12.2` to `vendor`.
+   - Place the `vendor` folder in the root directory of the project.
 
-4. **Access the Application**
+4. **Create Configuration Files**
+   - In the `config/` directory, create two files: `hybridauth_config.php` and `emailjs_config.php`.
+   - Add your API keys and secrets to these files. They are ignored by Git for security.
+   - Contact me at `jacklorien@gmail.com` for the necessary keys if you are a contributor.
+
+5. **Access the Application**
    - Open your browser and go to:  
      `http://localhost/quanswebsite/`
 
@@ -59,10 +66,12 @@ quanswebsite/
 ├── app/
 │   ├── Controllers/
 │   │   ├── AuthController.php     # Manages user authentication and sessions
+│   │   ├── BodyStyleController.php # Handles bodystyle-related logic and queries
 │   │   ├── BrandController.php    # Handles brand-related logic and queries
 │   │   ├── CarController.php      # Handles car-related business logic and queries
 │   │   └── LocationController.php # Manages user authentication and sessions
 │   ├── Models/
+│   │   ├── BodyStyle.php          # Body Style database model
 │   │   ├── Brand.php              # Brand database model
 │   │   ├── Car.php                # Car database model
 │   │   ├── Location.php           # Location database model
@@ -77,8 +86,8 @@ quanswebsite/
 │           └── footer.php         # Shared site footer
 ├── config/
 │   ├── database.php               # Database connection settings and credentials
-│   ├── emailjs_config.php         # EmailJS connection credentials
-│   └── hybridauth_config.php      # Hybridauth connection settings and credentials (Facebook and Google)
+│   ├── emailjs_config.php         # EmailJS connection credentials (Not in github)
+│   └── hybridauth_config.php      # Hybridauth connection settings and credentials (Facebook and Google) (Not in github)
 ├── database/
 │   └── script.sql                 # SQL schema and initial seed data for the app
 ├── public/
@@ -102,6 +111,12 @@ quanswebsite/
 │   ├── sitemap.xml                # Actual sitemap.xml for SEO
 │   ├── social_callback.php        # Handles OAuth callback (Aftermath) for social logins (Google/Facebook)
 │   └── social_login.php           # Initiates social login (Google/Facebook) process
+├── report_and_erd/
+│   ├── [Web Programming] Individual Web Report.pdf # The report for this Individual Assignment Web Application
+│   └── ER diagram                 # The ER Diagram for the database of this Individual Assignment Web Application
+├── vendor/                        # HybridAuth library (Not in github)
+│   └── ...
+├── .gitignore                     # Gitignore configs
 ├── .htaccess                      # Apache rewrite rules for clean URLs
 └── README.md                      # Project documentation and setup instructions
 ```
@@ -116,9 +131,3 @@ quanswebsite/
 - **Brand Showcase**: Explore cars by top brands with logo backgrounds.
 - **Responsive Design**: Mobile-friendly layout.
 - **SEO Practices Applied**: Meta Description, Semantic HTML, Sitemap.
-
----
-
-## For hybridauth/emailjs configs
-
-Contact me through `jacklorien@gmail.com` to get the configs. This is to ensure all the keys are not public and be used by others.
